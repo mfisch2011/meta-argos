@@ -42,59 +42,60 @@
 ##    what we will use?
 ###################################################################
 
+UBUNTU_MORTY_DEPS="gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm"
+FEDORA_MORTY_DEPS="gawk make wget tar bzip2 gzip python3 unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue perl-bignum socat findutils which SDL-devel xterm"
+SUSE_MORTY_DEPS="python gcc gcc-c++ git chrpath make wget python-xml diffstat makeinfo python-curses patch socat libSDL-devel xterm"
+CENTOS_MORTY_DEPS="gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath socat perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue SDL-devel xterm"
+
 #query system for information
-#TODO:will uname ever be deprecated in favor of lsb_release?  
-#right now maintain for compatibility
-DISTRO=$(uname -s)
-ARCH=$(uname -m)
-VER=$(uname -r)
+DISTRO=$(lsb_release -i | cut -d ':' -f2 | sed -e 's/^[ \t]*//')
+VER=$(lsb_release -r | cut -d ':' -f2 | sed -e 's/^[ \t]*//')
+BRANCH=""
+
+#TODO:how to run sudo inside script because we can't run git or build as root...
 
 #install dependencies
-case
-Ubuntu)
-	#TODO:add VER variations...
-	#TODO:there used to be a warning about lib-css and special
-	#instructions to remove and setup deps in apt, but it's
-	#disappeared.  may be a bit of fiddling to figure this out
-	
-	apt-get install --yes gawk wget git-core diffstat unzip \
-	texinfo gcc-multilib build-essential chrpath socat 
-	libsdl1.2-dev xterm
-	;;
-Fedora)
-	dnf install --yes gawk make wget tar bzip2 gzip python3 \
-	unzip perl patch diffutils diffstat git cpp gcc gcc-c++ \
-	glibc-devel texinfo chrpath ccache perl-Data-Dumper \
-	perl-Text-ParseWords perl-Thread-Queue perl-bignum socat \
-	findutils which SDL-devel xterm
-	;;
-openSUSE)
-	zypper install --yes python gcc gcc-c++ git chrpath make \
-	wget python-xml diffstat makeinfo python-curses patch socat \
-	libSDL-devel xterm
-	;;
-CentOS)
-RedHat)
-	yum install --yes gawk make wget tar bzip2 gzip python unzip \
-	perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel \
-	texinfo chrpath socat perl-Data-Dumper perl-Text-ParseWords \
-	perl-Thread-Queue SDL-devel xterm
-	;;
+case "$DISTRO-$VERSION" in
+
+Ubuntu-16.04)
+Ubuntu-15.04)
+Ubuntu-14.*)
+Debian-8.*)
+sudo apt-get install --yes $UBUNTU_MORTY_DEPS
+BRANCH="morty"
+;;
+
+Fedora-24)
+Fedora-23)
+Fedora-22)
+sudo dnf install --yes $FEDORA_MORTY_DEPS
+BRANCH="morty"
+;;
+
+openSUSE-13.2)
+openSUSE-42.1)
+sudo zypper install --yes $SUSE_MORTY_DEPS
+BRANCH="morty"
+;;
+
+CentOS-7.*)
+sudo yum install --yes $CENTOS_MORTY_DEPS
+BRANCH="morty"
+;;
+
 *)
-echo "Warning untested OS.  You may attempt a manual install, but exiting auto config script."
+echo "Warning $DISTRO $VERSION is untested.  You may attempt a manual install, but exiting auto config script."
 exit -1
-	;;
+;;
+
 esac
 
-#git poky and checkout morty branch
-git clone -b morty git://git.yoctoproject.org/poky
+#git poky and checkout the appropriate branch
+git clone -b $BRANCH git://git.yoctoproject.org/poky
+cd poky
 
-#get redhawk-sdr depedencies
-git clone -b morty git://git.openembedded.org/openembedded-core poky/openembedded-core
-git clone -b morty git://git.openembedded.org/meta-openembedded poky/meta-oe
+#TODO:temp to test dependancy installation...
+source oe-init-build-env
+bitbake core-image-sato
 
-#git redhawk-sdr meta-layer
-git clone -b morty http://github.com/GeonTech/meta-redhawk-sdr.git poky/meta-redhawk-sdr
-
-#git argos repository and link into poky build tree
-git clone https://github.com/mfisch2011/meta-argos.git poky/meta-argos
+#TODO:recipes and meta layers...
