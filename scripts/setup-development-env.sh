@@ -49,7 +49,7 @@ CENTOS_MORTY_DEPS="gawk make wget tar bzip2 gzip python unzip perl patch diffuti
 
 #query system for information
 DISTRO=$(lsb_release -i | cut -d ':' -f2 | sed -e 's/^[ \t]*//')
-VER=$(lsb_release -r | cut -d ':' -f2 | sed -e 's/^[ \t]*//')
+VERSION=$(lsb_release -r | cut -d ':' -f2 | sed -e 's/^[ \t]*//')
 BRANCH=""
 
 #TODO:how to run sudo inside script because we can't run git or build as root...
@@ -57,23 +57,17 @@ BRANCH=""
 #install dependencies
 case "$DISTRO-$VERSION" in
 
-Ubuntu-16.04)
-Ubuntu-15.04)
-Ubuntu-14.*)
-Debian-8.*)
+Ubuntu-16.04|Ubuntu-15.04|Ubuntu-14.*|Debian-8.*)
 sudo apt-get install --yes $UBUNTU_MORTY_DEPS
 BRANCH="morty"
 ;;
 
-Fedora-24)
-Fedora-23)
-Fedora-22)
+Fedora-24|Fedora-23|Fedora-22)
 sudo dnf install --yes $FEDORA_MORTY_DEPS
 BRANCH="morty"
 ;;
 
-openSUSE-13.2)
-openSUSE-42.1)
+openSUSE-13.2|openSUSE-42.1)
 sudo zypper install --yes $SUSE_MORTY_DEPS
 BRANCH="morty"
 ;;
