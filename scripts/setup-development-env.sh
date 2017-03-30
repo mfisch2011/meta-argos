@@ -57,7 +57,11 @@ BRANCH=""
 #install dependencies
 case "$DISTRO-$VERSION" in
 
-Ubuntu-16.04|Ubuntu-15.04|Ubuntu-14.*|Debian-8.*)
+Ubuntu-16.04|Ubuntu-15.04|Ubuntu-14.*)
+#TODO: 
+# Debian-8* doesn't work it complains about missing python3
+# may be easy to fix, but it doesn't jive with the 2.2 quick 
+# start guide.
 sudo apt-get install --yes $UBUNTU_MORTY_DEPS
 BRANCH="morty"
 ;;
