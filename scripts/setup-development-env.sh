@@ -69,6 +69,13 @@ BRANCH="morty"
 ;;
 
 Fedora-24|Fedora-23|Fedora-22)
+
+#TODO:
+# There is a problem with this!  The dependencies are correct 
+# and if run from the command line instead of from the script it 
+# works, but it misses some dependencies when run here.  May need 
+# to try a loop and installing each depedency separately.  It 
+# could be a argument limit that is being exceeded...
 sudo dnf install --yes $FEDORA_MORTY_DEPS
 BRANCH="morty"
 ;;
