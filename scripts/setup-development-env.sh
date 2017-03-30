@@ -48,10 +48,10 @@ SUSE_MORTY_DEPS="python gcc gcc-c++ git chrpath make wget python-xml diffstat ma
 CENTOS_MORTY_DEPS="gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath socat perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue SDL-devel xterm"
 
 #query system for information
-#TODO:lsb_release isn't natively supported by some distro's including Fedora!
-#need to find a fallback and/or a method to detect installation...
-DISTRO=$(lsb_release -i | cut -d ':' -f2 | sed -e 's/^[ \t]*//')
-VERSION=$(lsb_release -r | cut -d ':' -f2 | sed -e 's/^[ \t]*//')
+#can't use lsb_release because it's not installed by default for Fedora/Red Hat/CentOS
+PRETTY_NAME=$(cat /etc/os-release | grep PRETTY_NAME | cut -d '=' -f2 | sed 's/"//g')
+DISTRO=$(echo "$PRETTY_NAME" | cut -d ' ' -f1)
+VERSION=$(echo "$PRETTY_NAME" | cut -d ' ' -f2)
 BRANCH=""
 
 #TODO:how to run sudo inside script because we can't run git or build as root...
@@ -59,16 +59,16 @@ BRANCH=""
 #install dependencies
 case "$DISTRO-$VERSION" in
 
-Ubuntu-16.04|Ubuntu-15.04|Ubuntu-14.*)
+ubuntu-16.04*|ubuntu-15.04*|ubuntu-14.*)
 #TODO: 
-# Debian-8* doesn't work it complains about missing python3
+# debian-8* doesn't work it complains about missing python3
 # may be easy to fix, but it doesn't jive with the 2.2 quick 
 # start guide.
 sudo apt-get install --yes $UBUNTU_MORTY_DEPS
 BRANCH="morty"
 ;;
 
-Fedora-24|Fedora-23|Fedora-22)
+fedora-24|fedora-23|fedora-22)
 
 #TODO:
 # There is a problem with this!  The dependencies are correct 
