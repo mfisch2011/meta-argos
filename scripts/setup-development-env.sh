@@ -48,6 +48,8 @@ SUSE_MORTY_DEPS="python gcc gcc-c++ git chrpath make wget python-xml diffstat ma
 CENTOS_MORTY_DEPS="gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath socat perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue SDL-devel xterm"
 
 #query system for information
+#TODO:lsb_release isn't natively supported by some distro's including Fedora!
+#need to find a fallback and/or a method to detect installation...
 DISTRO=$(lsb_release -i | cut -d ':' -f2 | sed -e 's/^[ \t]*//')
 VERSION=$(lsb_release -r | cut -d ':' -f2 | sed -e 's/^[ \t]*//')
 BRANCH=""
