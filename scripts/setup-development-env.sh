@@ -59,7 +59,7 @@ BRANCH=""
 #install dependencies
 case "$DISTRO-$VERSION" in
 
-ubuntu-16.04*|ubuntu-15.04*|ubuntu-14.*)
+Ubuntu-16.04*|Ubuntu-15.04*|Ubuntu-14.*)
 #TODO: 
 # debian-8* doesn't work it complains about missing python3
 # may be easy to fix, but it doesn't jive with the 2.2 quick 
@@ -68,14 +68,10 @@ sudo apt-get install --yes $UBUNTU_MORTY_DEPS
 BRANCH="morty"
 ;;
 
-fedora-24|fedora-23|fedora-22)
+Fedora-24|Fedora-23|Fedora-22)
 
 #TODO:
-# There is a problem with this!  The dependencies are correct 
-# and if run from the command line instead of from the script it 
-# works, but it misses some dependencies when run here.  May need 
-# to try a loop and installing each depedency separately.  It 
-# could be a argument limit that is being exceeded...
+# There is a problem with this!  The dependencies aren't correct.  Dependencies call for python3, but bitbake complains about missing python.  On link from python3 to python.
 sudo dnf install --assumeyes $FEDORA_MORTY_DEPS
 BRANCH="morty"
 ;;
