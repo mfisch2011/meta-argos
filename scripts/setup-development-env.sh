@@ -67,7 +67,7 @@ Ubuntu-16.04*|Ubuntu-15.04*|Ubuntu-14.*)
 # may be easy to fix, but it doesn't jive with the 2.2 quick 
 # start guide.
 sudo apt-get install --yes $UBUNTU_MORTY_DEPS
-status = $?
+status=$?
 if [ $status -ne 0 ] ; then
   exit $status
 fi
@@ -79,7 +79,7 @@ Fedora-24|Fedora-23|Fedora-22)
 #TODO:
 # There is a problem with this!  The dependencies aren't correct.  Dependencies call for python3, but bitbake complains about missing python.  On link from python3 to python.
 sudo dnf install --assumeyes $FEDORA_MORTY_DEPS
-status = $?
+status=$?
 if [ $status -ne 0 ] ; then
   exit $status
 fi
@@ -88,7 +88,7 @@ BRANCH="morty"
 
 openSUSE-13.2|openSUSE-42.1)
 sudo zypper install --yes $SUSE_MORTY_DEPS
-status = $?
+status=$?
 if [ $status -ne 0 ] ; then
   exit $status
 fi
@@ -97,7 +97,7 @@ BRANCH="morty"
 
 CentOS-7.*)
 sudo yum install --yes $CENTOS_MORTY_DEPS
-status = $?
+status=$?
 if [ $status -ne 0 ] ; then
   exit $status
 fi
