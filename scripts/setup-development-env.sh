@@ -43,7 +43,9 @@
 ###################################################################
 
 UBUNTU_MORTY_DEPS="gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm"
-FEDORA_MORTY_DEPS="gawk make wget tar bzip2 gzip python3 unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue perl-bignum socat findutils which SDL-devel xterm"
+
+#had to modify.  both python and python3 should be deps.
+FEDORA_MORTY_DEPS="gawk make wget tar bzip2 gzip python python3 unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue perl-bignum socat findutils which SDL-devel xterm"
 SUSE_MORTY_DEPS="python gcc gcc-c++ git chrpath make wget python-xml diffstat makeinfo python-curses patch socat libSDL-devel xterm"
 CENTOS_MORTY_DEPS="gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath socat perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue SDL-devel xterm"
 
@@ -65,6 +67,10 @@ Ubuntu-16.04*|Ubuntu-15.04*|Ubuntu-14.*)
 # may be easy to fix, but it doesn't jive with the 2.2 quick 
 # start guide.
 sudo apt-get install --yes $UBUNTU_MORTY_DEPS
+status = $?
+if [ $status -ne 0 ] then
+ exit $status
+fi
 BRANCH="morty"
 ;;
 
@@ -73,16 +79,28 @@ Fedora-24|Fedora-23|Fedora-22)
 #TODO:
 # There is a problem with this!  The dependencies aren't correct.  Dependencies call for python3, but bitbake complains about missing python.  On link from python3 to python.
 sudo dnf install --assumeyes $FEDORA_MORTY_DEPS
+status = $?
+if [ $status -ne 0 ] then
+ exit $status
+fi
 BRANCH="morty"
 ;;
 
 openSUSE-13.2|openSUSE-42.1)
 sudo zypper install --yes $SUSE_MORTY_DEPS
+status = $?
+if [ $status -ne 0 ] then
+ exit $status
+fi
 BRANCH="morty"
 ;;
 
 CentOS-7.*)
 sudo yum install --yes $CENTOS_MORTY_DEPS
+status = $?
+if [ $status -ne 0 ] then
+ exit $status
+fi
 BRANCH="morty"
 ;;
 
