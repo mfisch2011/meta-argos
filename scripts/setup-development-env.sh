@@ -80,8 +80,8 @@ Fedora-24|Fedora-23|Fedora-22)
 # There is a problem with this!  The dependencies aren't correct.  Dependencies call for python3, but bitbake complains about missing python.  On link from python3 to python.
 sudo dnf install --assumeyes $FEDORA_MORTY_DEPS
 status = $?
-if [ $status -ne 0 ] then
- exit $status
+if [ $status -ne 0 ] ; then
+  exit $status
 fi
 BRANCH="morty"
 ;;
@@ -89,8 +89,8 @@ BRANCH="morty"
 openSUSE-13.2|openSUSE-42.1)
 sudo zypper install --yes $SUSE_MORTY_DEPS
 status = $?
-if [ $status -ne 0 ] then
- exit $status
+if [ $status -ne 0 ] ; then
+  exit $status
 fi
 BRANCH="morty"
 ;;
@@ -98,8 +98,8 @@ BRANCH="morty"
 CentOS-7.*)
 sudo yum install --yes $CENTOS_MORTY_DEPS
 status = $?
-if [ $status -ne 0 ] then
- exit $status
+if [ $status -ne 0 ] ; then
+  exit $status
 fi
 BRANCH="morty"
 ;;
