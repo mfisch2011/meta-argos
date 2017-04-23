@@ -113,6 +113,7 @@ exit -1
 esac
 
 #git poky and checkout the appropriate branch
+cd "/home/$USER"
 runuser -l $USER -c "git clone -b $BRANCH git://git.yoctoproject.org/poky"
 cd poky
 
