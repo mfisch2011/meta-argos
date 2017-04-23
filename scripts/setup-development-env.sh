@@ -48,6 +48,7 @@ UBUNTU_MORTY_DEPS="gawk wget git-core diffstat unzip texinfo gcc-multilib build-
 FEDORA_MORTY_DEPS="gawk make wget tar bzip2 gzip python python3 unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue perl-bignum socat findutils which SDL-devel xterm"
 SUSE_MORTY_DEPS="python gcc gcc-c++ git chrpath make wget python-xml diffstat makeinfo python-curses patch socat libSDL-devel xterm"
 CENTOS_MORTY_DEPS="gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath socat perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue SDL-devel xterm"
+USER=$(whoami)
 
 #query system for information
 #can't use lsb_release because it's not installed by default for Fedora/Red Hat/CentOS
@@ -66,7 +67,7 @@ Ubuntu-16.04*|Ubuntu-15.04*|Ubuntu-14.*)
 # debian-8* doesn't work it complains about missing python3
 # may be easy to fix, but it doesn't jive with the 2.2 quick 
 # start guide.
-sudo apt-get install --yes $UBUNTU_MORTY_DEPS
+apt-get install --yes $UBUNTU_MORTY_DEPS
 status=$?
 if [ $status -ne 0 ] ; then
   exit $status
@@ -78,7 +79,7 @@ Fedora-24|Fedora-23|Fedora-22)
 
 #TODO:
 # There is a problem with this!  The dependencies aren't correct.  Dependencies call for python3, but bitbake complains about missing python.  On link from python3 to python.
-sudo dnf install --assumeyes $FEDORA_MORTY_DEPS
+dnf install --assumeyes $FEDORA_MORTY_DEPS
 status=$?
 if [ $status -ne 0 ] ; then
   exit $status
@@ -87,7 +88,7 @@ BRANCH="morty"
 ;;
 
 openSUSE-13.2|openSUSE-42.1)
-sudo zypper install --yes $SUSE_MORTY_DEPS
+zypper install --yes $SUSE_MORTY_DEPS
 status=$?
 if [ $status -ne 0 ] ; then
   exit $status
@@ -96,7 +97,7 @@ BRANCH="morty"
 ;;
 
 CentOS-7.*)
-sudo yum install --yes $CENTOS_MORTY_DEPS
+yum install --yes $CENTOS_MORTY_DEPS
 status=$?
 if [ $status -ne 0 ] ; then
   exit $status
@@ -112,11 +113,11 @@ exit -1
 esac
 
 #git poky and checkout the appropriate branch
-git clone -b $BRANCH git://git.yoctoproject.org/poky
+runuser -l $USER -c 'git clone -b $BRANCH git://git.yoctoproject.org/poky'
 cd poky
 
 #TODO:temp to test dependancy installation...
-source oe-init-build-env
-bitbake core-image-sato
+runuser -l $USER -c 'source oe-init-build-env'
+runuser -l $USER -c 'bitbake core-image-sato'
 
 #TODO:recipes and meta layers...
