@@ -113,7 +113,7 @@ exit -1
 esac
 
 #git poky and checkout the appropriate branch
-runuser -l $USER -c 'git clone -b $BRANCH git://git.yoctoproject.org/poky'
+runuser -l $USER -c "git clone -b $BRANCH git://git.yoctoproject.org/poky"
 cd poky
 
 #TODO:temp to test dependancy installation...
