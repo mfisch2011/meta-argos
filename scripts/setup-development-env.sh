@@ -66,7 +66,7 @@ while getopts ":u" opt; do
       USER=$1
       shift $((OPTIND -1))
       ;;
-    \? ) echo "Usage: cmd [-u username]
+    \? ) echo "Usage: cmd [-u username]"
       ;;
   esac
 done
