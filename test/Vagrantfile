@@ -1,141 +1,31 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure("2") do |config|
-  # config.vm.provider = "libvirt"
-  
-  config.vm.define "test.ubuntu.16.04" do |node|
-    node.vm.box = "yk0/ubuntu-xenial"
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      sudo apt-get update --yes
-      #sudo apt-get upgrade --yes DON'T DO APT-GET UPGRADE IT SCREWS UP VAGRANT!!!
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      #TODO:is there a more cross plaform way to handle differences in newlines?
-      sed -i -e 's/\r$//' setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
-  
-  config.vm.define "test.ubuntu.15.10" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(2) do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
 
-  config.vm.define "test.ubuntu.15.04" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://atlas.hashicorp.com/search.
+  config.vm.box = "ubuntu/xenial64"
 
-  config.vm.define "test.ubuntu.14.10" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
 
-  config.vm.define "test.ubuntu.14.04" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
-
-  config.vm.define "test.debian.8" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
-  
-  config.vm.define "test.suse.13.2" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
-
-  config.vm.define "test.suse.42.1" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
-
-  config.vm.define "test.fedora.24" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
-
-  config.vm.define "test.fedora.23" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
-
-  config.vm.define "test.fedora.22" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end
-
-  config.vm.define "test.centos.7" do |node|
-    node.vm.box = ""
-    node.vm.box_url = ""
-    node.vm.provision "shell", inline: <<-SHELL
-      apt-get update --yes && apt-get upgrade --yes
-      wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
-      chmod +x setup-development-env.sh
-      ./setup-development-env.sh
-    SHELL
-  end  
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get upgrade --yes
+    wget https://raw.githubusercontent.com/mfisch2011/meta-argos/development/scripts/setup-development-env.sh
+    #TODO:is there a better cross platform way of fixing the newlines?
+    sed -i 's/\r//' setup-development-env.sh
+    chmod +x setup-development-env.sh
+    ./setup-development-env.sh -u ubuntu
+  SHELL
 end

@@ -59,6 +59,18 @@ BRANCH=""
 
 #TODO:how to run sudo inside script because we can't run git or build as root...
 
+#parse command line options
+while getopts ":u" opt; do
+  case ${opt} in
+    u ) # process user option
+      USER=$1
+      shift $((OPTIND -1))
+      ;;
+    \? ) echo "Usage: cmd [-u username]
+      ;;
+  esac
+done
+
 #install dependencies
 case "$DISTRO-$VERSION" in
 
