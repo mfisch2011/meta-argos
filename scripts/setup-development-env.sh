@@ -63,7 +63,7 @@ BRANCH=""
 while getopts ":u" opt; do
   case ${opt} in
     u ) # process user option
-      USER=$1
+      USER=$2
       shift $((OPTIND -1))
       ;;
     \? ) echo "Usage: cmd [-u username]"
