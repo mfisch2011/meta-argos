@@ -79,11 +79,15 @@ Ubuntu-16.04*|Ubuntu-15.04*|Ubuntu-14.*)
 # debian-8* doesn't work it complains about missing python3
 # may be easy to fix, but it doesn't jive with the 2.2 quick 
 # start guide.
-apt-get install --yes $UBUNTU_MORTY_DEPS
-status=$?
-if [ $status -ne 0 ] ; then
-  exit $status
-fi
+#WTF does it not work as a single execution???
+for PKG in $UBUNTU_MORTY_DEPS;
+do
+  apt-get install --yes $PKG
+  status=$?
+  if [ $status -ne 0 ] ; then
+    exit $status
+  fi
+done
 BRANCH="morty"
 ;;
 
@@ -130,6 +134,7 @@ runuser -l $USER -c "git clone -b $BRANCH git://git.yoctoproject.org/poky"
 cd poky
 
 #TODO:temp to test dependancy installation...
+cd "/home/$USER/poky"
 runuser -l $USER -c 'source oe-init-build-env'
 runuser -l $USER -c 'bitbake core-image-sato'
 
