@@ -1,11 +1,8 @@
 #!/usr/bin/python
 
-#TODO:application documentation
-
 #TODO:imports
-import argparse
 import os
-from subprocess import call
+from subprocess import Popen
 
 #TODO:class documentation
 class NSControl:
@@ -58,6 +55,13 @@ class NSControl:
     def setMaintainer(self,maintainer):
         #TODO:validate maintainer
         self._maintainer = maintainer
+        
+    def getSection(self):
+        return self._section
+    
+    def setSection(self,section):
+        #TODO:validate section
+        self._section = section
 
     def build(self):
         tmpDir = "/tmp/" + self._name
@@ -85,25 +89,7 @@ class NSControl:
         f.close()
         
         #build the .deb file
-        call(['equivs-build',tmpDir+'/ns-control'])
-
-#application command line execution...
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-d','--description',help="Description for the meta-package.")
-    parser.add_argument('-m','--maintainer',help="Maintainer for the meta-package {Name} <e-mail address>")
-    parser.add_argument('name',help="Name of the meta-package to build.")
-    parser.add_argument('version',help='Package version to build.')
-    parser.add_argument('packages',metavar='PKG',type=str,nargs='+',help='package to add to meta-package')
-    args = parser.parse_args()
+        with open(os.devnull, 'w') as DEVNULL:
+            p = Popen(['equivs-build',tmpDir+'/ns-control'],stdout=DEVNULL,stderr=DEVNULL)
+            p.wait()
         
-    ctrl = NSControl()
-    ctrl.setName(args.name)
-    if(args.description is not None):
-        ctrl.setDescription(args.description)
-    if(args.maintainer is not None):
-        ctrl.setMaintainer(args.maintainer)
-    ctrl.setPackages(args.packages)
-    ctrl.setVersion(args.version)
-    ctrl.build()
-    
